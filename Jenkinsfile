@@ -14,11 +14,7 @@ pipeline {
 
     stages {
 
-        stage('Clone Code') {
-            steps {
-                git 'https://github.com/KartikMittal05/TraineeApi.git'
-            }
-        }
+        
 
         stage('Build JAR') {
             steps {
