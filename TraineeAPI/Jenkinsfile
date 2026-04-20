@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven'
+        jdk 'JDK17'
+    }
+
+    environment {
+        IMAGE_NAME = "traineeapi"
+        CONTAINER_NAME = "traineeapi-container"
+    }
+
+    stages {
+
+        stage('Clone') {
+            steps {
+                git 'https://github.com/KartikMittal05/TraineeApi.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                dir('TraineeAPI') {
+                    sh 'mvn clean package -DskipTests'
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                dir('TraineeAPI') {
+                    sh 'docker build -t traineeapi .'
+                }
+            }
+        }
+
+        stage('Run Container') {
+            steps {
+                sh '''
+                docker rm -f traineeapi-container || true
+                docker run -d -p 8080:8080 --name traineeapi-container traineeapi
+                '''
+            }
+        }
+    }
+}
