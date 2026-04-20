@@ -39,7 +39,7 @@ pipeline {
                 )]) {
                     bat '''
             docker logout
-            echo %PASS% | docker login -u %USER% --password-stdin
+            docker login -u %USER% -p %PASS%
             '''
                 }
             }
