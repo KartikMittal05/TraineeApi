@@ -14,12 +14,10 @@ pipeline {
 
     stages {
 
-        
-
         stage('Build JAR') {
             steps {
                 dir('TraineeAPI') {
-                    sh 'mvn clean package -DskipTests'
+                    bat 'mvn clean package -DskipTests'
                 }
             }
         }
@@ -27,7 +25,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir('TraineeAPI') {
-                    sh 'docker build -t traineeapi .'
+                    bat 'docker build -t traineeapi .'
                 }
             }
         }
@@ -39,27 +37,27 @@ pipeline {
                     usernameVariable: 'USER',
                     passwordVariable: 'PASS'
                 )]) {
-                    sh 'echo $PASS | docker login -u $USER --password-stdin'
+                    bat 'echo %PASS% | docker login -u %USER% --password-stdin'
                 }
             }
         }
 
         stage('Tag Image') {
             steps {
-                sh 'docker tag traineeapi $DOCKERHUB_USER/traineeapi:latest'
+                bat 'docker tag traineeapi %DOCKERHUB_USER%/traineeapi:latest'
             }
         }
 
         stage('Push to DockerHub') {
             steps {
-                sh 'docker push $DOCKERHUB_USER/traineeapi:latest'
+                bat 'docker push %DOCKERHUB_USER%/traineeapi:latest'
             }
         }
 
         stage('Run Container') {
             steps {
-                sh '''
-                docker rm -f traineeapi-container || true
+                bat '''
+                docker rm -f traineeapi-container || exit 0
                 docker run -d -p 8080:8080 --name traineeapi-container traineeapi
                 '''
             }
