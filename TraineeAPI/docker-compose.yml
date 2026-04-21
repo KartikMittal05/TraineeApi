@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: EmployeeDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: TIGER
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  traineeapi:
+    build: .
+    container_name: traineeapi
+    ports:
+      - "8087:8087"
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:
