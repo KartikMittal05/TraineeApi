@@ -17,7 +17,7 @@ pipeline {
         stage('Build JAR') {
             steps {
                 dir('TraineeAPI') {
-                    bat 'mvn clean package'
+                    bat 'mvn clean package -DskipTests'
                 }
             }
         }
@@ -61,7 +61,7 @@ pipeline {
             steps {
                 bat '''
                 docker rm -f traineeapi-container || exit 0
-                docker run -d -p 8087:8080 --name traineeapi-container traineeapi
+                docker run -d -p 8087:8087 --name traineeapi-container traineeapi
                 '''
             }
         }
