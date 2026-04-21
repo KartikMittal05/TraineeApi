@@ -57,18 +57,18 @@ pipeline {
             }
         }
 
-        stage('Run Container') {
-            steps {
-                bat '''
-                docker rm -f traineeapi-container || exit 0
-                docker run -d -p 8087:8087 ^
-                -e SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/SpringBootDB ^
-                -e SPRING_DATASOURCE_USERNAME=postgres ^
-                -e SPRING_DATASOURCE_PASSWORD=TIGER ^ 
-                
-                --name traineeapi-container traineeapi
-                '''
-            }
-        }
+       stage('Run Container') {
+    steps {
+        bat '''
+        docker rm -f traineeapi-container || exit 0
+
+        docker run -d -p 8087:8087 ^
+        -e SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/EmployeeDb ^
+        -e SPRING_DATASOURCE_USERNAME=postgres ^
+        -e SPRING_DATASOURCE_PASSWORD=TIGER ^
+        --name traineeapi-container traineeapi
+        '''
+    }
+}
     }
 }
