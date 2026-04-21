@@ -76,6 +76,7 @@ public class TraineeService implements ITraineeService {
 
     @Override
     public List<Trainee> getAllTrainees() {
+
         logger.info("Fetching all trainees from database");
 
         List<Trainee> list = repo.findAll();
@@ -86,12 +87,13 @@ public class TraineeService implements ITraineeService {
 
     @Override
     public Optional<Trainee> getTraineeById(int id) {
+
         logger.info("Fetching trainee with id {}", id);
 
         Optional<Trainee> trainee = repo.findById(id);
 
         if (trainee.isPresent()) {
-            logger.debug("Trainee found: id={}", id);
+            logger.debug("Trainee found with id {}", id);
         } else {
             logger.warn("Trainee not found with id {}", id);
         }
@@ -101,6 +103,7 @@ public class TraineeService implements ITraineeService {
 
     @Override
     public Optional<Trainee> getTraineeByName(String name) {
+
         logger.info("Fetching trainee with name {}", name);
 
         Optional<Trainee> trainee = repo.findByTraineeName(name);
@@ -116,26 +119,31 @@ public class TraineeService implements ITraineeService {
 
     @Override
     public Trainee addTrainee(Trainee trainee) {
-        logger.info("Saving new trainee with name {}", trainee.getName());
+
+        logger.info("Saving trainee with name {}", trainee.getTraineeName());
 
         Trainee saved = repo.save(trainee);
 
-        logger.info("Trainee saved with id {}", saved.getId());
+        logger.info("Trainee saved with id {}", saved.getTraineeId());
+
         return saved;
     }
 
     @Override
     public Trainee updateTrainee(Trainee trainee) {
-        logger.info("Updating trainee with id {}", trainee.getId());
+
+        logger.info("Updating trainee with id {}", trainee.getTraineeId());
 
         Trainee updated = repo.save(trainee);
 
-        logger.info("Trainee updated successfully with id {}", updated.getId());
+        logger.info("Trainee updated with id {}", updated.getTraineeId());
+
         return updated;
     }
 
     @Override
     public boolean deleteTrainee(int id) {
+
         logger.info("Attempting to delete trainee with id {}", id);
 
         if (repo.existsById(id)) {
