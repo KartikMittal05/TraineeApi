@@ -155,7 +155,7 @@ public class TraineeController {
     private ITraineeService service;
 
     @GetMapping("/trainees")
-    public ResponseEntity<List<Trainee>> getAllTraineesNew() {
+    public ResponseEntity<List<Trainee>> getAllTrainees() {
 
         logger.info("GET /trainees called");
 
@@ -187,7 +187,7 @@ public class TraineeController {
     }
 
     @GetMapping("/trainees/byName")
-    public ResponseEntity<Trainee> getByNameNew(@RequestParam("name") String name) {
+    public ResponseEntity<Trainee> getByName(@RequestParam("name") String name) {
 
         logger.info("GET /trainees/byName called with name={}", name);
 
@@ -203,31 +203,31 @@ public class TraineeController {
     }
 
     @PostMapping("/trainees")
-    public ResponseEntity<Trainee> addTraineeNew(@RequestBody Trainee trainee) {
+    public ResponseEntity<Trainee> addTrainee(@RequestBody Trainee trainee) {
 
-        logger.info("POST /trainees called with data: {}", trainee.getName());
+        logger.info("POST /trainees called with name {}", trainee.getTraineeName());
 
         Trainee saved = service.addTrainee(trainee);
 
-        logger.info("Trainee created with id {}", saved.getId());
+        logger.info("Trainee created with id {}", saved.getTraineeId());
 
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 
     @PutMapping("/trainees")
-    public ResponseEntity<Trainee> updateTraineeNew(@RequestBody Trainee trainee) {
+    public ResponseEntity<Trainee> updateTrainee(@RequestBody Trainee trainee) {
 
-        logger.info("PUT /trainees called for id {}", trainee.getId());
+        logger.info("PUT /trainees called for id {}", trainee.getTraineeId());
 
         Trainee updated = service.updateTrainee(trainee);
 
-        logger.info("Trainee updated with id {}", updated.getId());
+        logger.info("Trainee updated with id {}", updated.getTraineeId());
 
         return new ResponseEntity<>(updated, HttpStatus.OK);
     }
 
     @DeleteMapping("/trainees/{id}")
-    public ResponseEntity<String> deleteTraineeNew(@PathVariable int id) {
+    public ResponseEntity<String> deleteTrainee(@PathVariable int id) {
 
         logger.info("DELETE /trainees/{} called", id);
 
