@@ -26,6 +26,9 @@ services:
       SPRING_DATASOURCE_PASSWORD: TIGER
     depends_on:
       - postgres
+    volumes:
+      - ./logs:/app/logs
+
 
 volumes:
   pgdata:
